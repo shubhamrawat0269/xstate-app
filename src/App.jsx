@@ -81,7 +81,7 @@ function App() {
 
   useEffect(() => {
     getCountryData(`https://crio-location-selector.onrender.com/countries`);
-  }, [country]);
+  }, []);
 
   return (
     <div className="main__div">
