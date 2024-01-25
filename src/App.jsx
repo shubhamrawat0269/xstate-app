@@ -116,10 +116,7 @@ function App() {
       </div>
       {showBanner && (
         <p>
-          You Selected {cityName},&nbsp;
-          <span style={{ color: "gray" }}>
-            {stateName}, {countryName}
-          </span>
+          You Selected {cityName}, {stateName}, {countryName}
         </p>
       )}
     </div>
