@@ -1,0 +1,13 @@
+.select__box {
+  display: flex;
+  gap: 1rem;
+
+  width: 50%;
+  margin: 0 auto;
+}
+
+.select__box select {
+  padding: 0.35rem;
+  width: 15rem;
+  outline: none;
+}
