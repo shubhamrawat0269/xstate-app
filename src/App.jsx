@@ -115,7 +115,7 @@ function App() {
       </div>
       {showBanner && (
         <h2>
-          You Selected {cityName},{stateName}, {countryName}
+          You Selected {cityName}, {stateName}, {countryName}
         </h2>
       )}
     </div>
