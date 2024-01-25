@@ -37,7 +37,7 @@ function App() {
       setState(stateDataInJSON);
     } catch (error) {
       console.log(error);
-      alert("Error",error);
+      alert("Error", error);
     }
   };
 
@@ -49,7 +49,7 @@ function App() {
       setCity(cityDataInJSON);
     } catch (error) {
       console.log(error);
-      alert("Error",error);
+      alert("Error", error);
     }
   };
 
@@ -115,12 +115,12 @@ function App() {
         </select>
       </div>
       {showBanner && (
-        <h2>
+        <p>
           You Selected {cityName},&nbsp;
-          <p style={{ color: "gray" }}>
+          <span style={{ color: "gray" }}>
             {stateName}, {countryName}
-          </p>
-        </h2>
+          </span>
+        </p>
       )}
     </div>
   );
