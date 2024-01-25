@@ -25,6 +25,7 @@ function App() {
       setCountry(countryDataInJSON);
     } catch (error) {
       console.log(error);
+      alert("Error");
     }
   };
 
