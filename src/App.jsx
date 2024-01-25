@@ -18,24 +18,38 @@ function App() {
   const [showBanner, setShowBanner] = useState(false);
 
   const getCountryData = async (url) => {
-    const countryData = await fetch(url);
-    const countryDataInJSON = await countryData.json();
+    try {
+      const countryData = await fetch(url);
+      const countryDataInJSON = await countryData.json();
 
-    setCountry(countryDataInJSON);
+      setCountry(countryDataInJSON);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getStateData = async (url) => {
-    const stateData = await fetch(url);
-    const stateDataInJSON = await stateData.json();
+    try {
+      const stateData = await fetch(url);
+      const stateDataInJSON = await stateData.json();
 
-    setState(stateDataInJSON);
+      setState(stateDataInJSON);
+    } catch (error) {
+      console.log(error);
+      alert("Error");
+    }
   };
 
   const getCityData = async (url) => {
-    const cityData = await fetch(url);
-    const cityDataInJSON = await cityData.json();
+    try {
+      const cityData = await fetch(url);
+      const cityDataInJSON = await cityData.json();
 
-    setCity(cityDataInJSON);
+      setCity(cityDataInJSON);
+    } catch (error) {
+      console.log(error);
+      alert("Error");
+    }
   };
 
   const handleCountryData = (e) => {
@@ -101,10 +115,7 @@ function App() {
       </div>
       {showBanner && (
         <h2>
-          You Selected {cityName},{" "}
-          <span style={{ color: "grey" }}>
-            {stateName}, {countryName}
-          </span>
+          You Selected {cityName},{stateName}, {countryName}
         </h2>
       )}
     </div>
