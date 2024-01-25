@@ -11,3 +11,17 @@
   width: 15rem;
   outline: none;
 }
+
+.show__banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
