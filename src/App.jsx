@@ -115,9 +115,9 @@ function App() {
         </select>
       </div>
       {showBanner && (
-        <p>
+        <h2>
           You Selected {cityName}, {stateName}, {countryName}
-        </p>
+        </h2>
       )}
     </div>
   );
