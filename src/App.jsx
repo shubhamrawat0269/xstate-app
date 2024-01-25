@@ -37,7 +37,7 @@ function App() {
       setState(stateDataInJSON);
     } catch (error) {
       console.log(error);
-      alert("Error");
+      alert("Error",error);
     }
   };
 
@@ -49,7 +49,7 @@ function App() {
       setCity(cityDataInJSON);
     } catch (error) {
       console.log(error);
-      alert("Error");
+      alert("Error",error);
     }
   };
 
