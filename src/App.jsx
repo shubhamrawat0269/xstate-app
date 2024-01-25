@@ -115,17 +115,9 @@ function App() {
         </select>
       </div>
       {showBanner && (
-        <div className="show__banner">
-          <h2>You Selected</h2>
-          <h1>{cityName}</h1>
-          <h2>
-            {","}
-            {""}
-          </h2>
-          <h2>
-            {stateName}, {countryName}
-          </h2>
-        </div>
+        <h2>
+          You Selected {cityName}, {stateName}, {countryName}
+        </h2>
       )}
     </div>
   );
