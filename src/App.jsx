@@ -1,124 +1,118 @@
 import { useState } from "react";
 import "./App.css";
 import { useEffect } from "react";
+import axios from "axios";
 
 // All Country API : --  https://crio-location-selector.onrender.com/countries
 // All State API : --  https://crio-location-selector.onrender.com/country={countryName}/states
 // All Cities API : --  https://crio-location-selector.onrender.com/country={countryName}/state={stateName}/cities
 
 function App() {
-  const [country, setCountry] = useState([]);
-  const [state, setState] = useState([]);
-  const [city, setCity] = useState([]);
-  const [countryName, setCountryName] = useState("");
-  const [stateName, setStateName] = useState("");
-  const [cityName, setCityName] = useState("");
-  const [isStateDisable, setStateDisable] = useState(true);
-  const [isCityDisable, setCityDisable] = useState(true);
-  const [showBanner, setShowBanner] = useState(false);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
 
-  const getCountryData = async (url) => {
+  const getCountriesData = async () => {
     try {
-      const countryData = await fetch(url);
-      const countryDataInJSON = await countryData.json();
-
-      setCountry(countryDataInJSON);
+      const res = await axios.get(
+        `https://crio-location-selector.onrender.com/countries`
+      );
+      setCountries(res.data);
     } catch (error) {
-      console.log(error);
-      alert("Error", error);
+      console.log(`Error fetching countries:`, error);
     }
-  };
-
-  const getStateData = async (url) => {
-    try {
-      const stateData = await fetch(url);
-      const stateDataInJSON = await stateData.json();
-
-      setState(stateDataInJSON);
-    } catch (error) {
-      console.log(error);
-      alert("Error", error);
-    }
-  };
-
-  const getCityData = async (url) => {
-    try {
-      const cityData = await fetch(url);
-      const cityDataInJSON = await cityData.json();
-
-      setCity(cityDataInJSON);
-    } catch (error) {
-      console.log(error);
-      alert("Error", error);
-    }
-  };
-
-  const handleCountryData = (e) => {
-    // console.log(e.target.value);
-    setStateDisable(false);
-    setCountryName(e.target.value);
-    // make api call here
-    getStateData(
-      `https://crio-location-selector.onrender.com/country=${e.target.value}/states`
-    );
-  };
-
-  const handleStateData = (e) => {
-    // console.log(e.target.value);
-    setCityDisable(false);
-    setStateName(e.target.value);
-    // make api call here
-    getCityData(
-      `https://crio-location-selector.onrender.com/country=${countryName}/state=${e.target.value}/cities`
-    );
-  };
-
-  const handleCityData = (e) => {
-    // console.log(e.target.value);
-    setCityName(e.target.value);
-    setShowBanner(true);
   };
 
   useEffect(() => {
-    getCountryData(`https://crio-location-selector.onrender.com/countries`);
+    getCountriesData();
   }, []);
 
+  useEffect(() => {
+    if (selectedCountry) {
+      axios
+        .get(
+          `https://crio-location-selector.onrender.com/country=${selectedCountry}/states`
+        )
+        .then((res) => {
+          setStates(res.data);
+          setSelectedState("");
+          setCities([]);
+          setSelectedCity("");
+        })
+        .catch((err) => console.log("Error fetching states:", err));
+    }
+  }, [selectedCountry]);
+
+  useEffect(() => {
+    if (selectedCountry && selectedState) {
+      axios
+        .get(
+          `https://crio-location-selector.onrender.com/country=${selectedCountry}/state=${selectedState}/cities`
+        )
+        .then((res) => {
+          setCities(res.data);
+          setSelectedCity("");
+        })
+        .catch((err) => console.log("Error fetching states:", err));
+    }
+  }, [selectedCountry, selectedState]);
+
   return (
-    <div className="main__div">
+    <div className="city-selector">
       <h1>Select Location</h1>
       <div className="select__box">
-        <select onChange={handleCountryData}>
-          <option value="Select Country" selected>
+        <select
+          value={selectedCountry}
+          onChange={(e) => setSelectedCountry(e.target.value)}
+          className="dropdown"
+        >
+          <option value="" disabled>
             Select Country
           </option>
-          {country.map((cur, id) => (
-            <option key={id} value={cur}>
+          {countries.map((cur) => (
+            <option key={cur} value={cur}>
               {cur}
             </option>
           ))}
         </select>
-        <select onChange={handleStateData} disabled={isStateDisable}>
-          <option value="Select State">Select State</option>
-          {state.map((cur, id) => (
-            <option key={id} value={cur}>
+        <select
+          value={selectedState}
+          onChange={(e) => setSelectedState(e.target.value)}
+          className="dropdown"
+        >
+          <option value="" disabled>
+            Select State
+          </option>
+          {states.map((cur) => (
+            <option key={cur} value={cur}>
               {cur}
             </option>
           ))}
         </select>
-        <select onChange={handleCityData} disabled={isCityDisable}>
-          <option value="Select City">Select City</option>
-          {city.map((cur, id) => (
-            <option key={id} value={cur}>
+        <select
+          value={selectedCity}
+          onChange={(e) => setSelectedCity(e.target.value)}
+          className="dropdown"
+        >
+          <option value="" disabled>
+            Select City
+          </option>
+          {cities.map((cur) => (
+            <option key={cur} value={cur}>
               {cur}
             </option>
           ))}
         </select>
       </div>
-      {showBanner && (
+      {selectedCity && (
         <h2 className="result">
-          You Selected <span className="highlight">{cityName}</span>,{" "}
-          <span className="select-style">
-            {stateName}, {countryName}
+          You selected <span className="highlight">{selectedCity}</span>
+          <span className="fade">
+            {" "}
+            {selectedState}, {selectedCountry}
           </span>
         </h2>
       )}
